@@ -31,7 +31,7 @@ class UpdateRows:
             return True
         except Exception as e: 
             print("Invalid purchase input")
-            print(e)
+            #print(e)
         return False
 
 
@@ -59,26 +59,23 @@ class UpdateRows:
                     funds = float(oldfunds) + float(funds)
                 except Exception as e: 
                     print("Invalid user input")
-                    print(e)
+                    #print(e)
                     return False
             insertRow += "funds = %s, "
             execute = True
             inputList.append(funds)
 
-        #insertRow = "UPDATE users SET username = %s, password = %s, admin = %s WHERE uid = %s"
         if execute:#If none of the fields have updated values, then don't execute
             try:
                 insertRow = insertRow[:-2] #Remove the last ", "
                 insertRow += " WHERE uid = %s"
                 inputList.append(uid)
                 cursor.execute(insertRow, inputList)
-                #print("Update Successful")
                 self.cnx.commit()
                 
             except Exception as e: 
                 print("Update input was invalid")
-                #print(insertRow)
-                print(e)
+                #print(e)
                 return False
         return True
 
@@ -111,13 +108,12 @@ class UpdateRows:
                     amount = int(oldAmount) - int(amount)
                 except Exception as e: 
                     print("Invalid book input")
-                    print(e)
+                    #print(e)
                     return False
             insertRow += "amount = %s, "
             execute = True
             inputList.append(amount)
 
-        #insertRow = "UPDATE users SET username = %s, password = %s, admin = %s WHERE uid = %s"
         if execute:#If none of the fields have updated values, then don't execute
             try:
                 insertRow = insertRow[:-2] #Remove the last ", "
@@ -125,12 +121,10 @@ class UpdateRows:
                 inputList.append(bid)
                 cursor.execute(insertRow, inputList)
                 self.cnx.commit()
-                #print("Update Successful")
             except Exception as e: 
                 print("Invalid book input")
-                print(e)
-                return False
                 #print(e)
+                return False
         return True
         
     def updateOrdersRow(self, uid, bid, date, purchases, oid, spent):
@@ -165,7 +159,6 @@ class UpdateRows:
             execute = True
             inputList.append(spent)
 
-        #insertRow = "UPDATE users SET username = %s, password = %s, admin = %s WHERE uid = %s"
         if execute:#If none of the fields have updated values, then don't execute
             try:
                 insertRow = insertRow[:-2] #Remove the last ", "
@@ -173,11 +166,9 @@ class UpdateRows:
                 inputList.append(oid)
                 cursor.execute(insertRow, inputList)
                 self.cnx.commit()
-                #print("Update Successful")
             except Exception as e: 
                 print("Invalid order input")
-                #print(insertRow)
-                print(e)
+                #print(e)
                 return False
         return True
         

@@ -12,7 +12,7 @@ class DeleteRows:
             return True
         except Exception as e: 
             print("Delete input was invalid")
-            print(e)
+            #print(e)
         return False
         
 
@@ -26,7 +26,7 @@ class DeleteRows:
             #print("Delete Successful")
         except Exception as e: 
             print("Delete input was invalid")
-            print(e)
+            #print(e)
         return False
         
 
@@ -40,6 +40,6 @@ class DeleteRows:
             return True
         except Exception as e: 
             print("Delete input was invalid")
-            print(e)
+            #print(e)
         return False
         

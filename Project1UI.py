@@ -63,7 +63,6 @@ class UI:
                 result = self.insertRows.insertUserRow(user,password,adminBool,"0")
                 if result:
                     print("Account creation was successful")
-                #self.account.createAccount(user, password, adminBool)
             elif option == "3":
                 break #Quit was selected, so break the loop and return to the main class
             else:
@@ -104,10 +103,8 @@ class UI:
         bid = input("Input the Book ID for the book you wish to purchase:")
         purchases = input("How many do you wish to purchase?")
         result = self.updateRows.executePurchase(purchases, uid, bid) #Purchase needs a special function for ACID compliance
-        #result = self.updateRows.updateBooksRow("","","","",purchases,bid,True)
         if result:
             print("Purchase Successful")
-            #self.insertRows.insertOrderRow(uid,bid,"1",purchases)
 
     def adminCommands(self, admin):
         while True: #The loop is exited by choosing "4"
@@ -274,12 +271,6 @@ class UI:
         uid = input("Input new user id:")
 
         bid = input("Input new book id:")
-
-        # option = input(
-        # """Which kind of date & time update?
-        #     1: Current date & time
-        #     2: Custom date & time
-        # """)
         
         purchases = input("Input a purchase number:")
         spent = input("Input spent amount:")

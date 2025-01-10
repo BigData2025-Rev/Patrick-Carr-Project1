@@ -23,7 +23,7 @@ class InsertRows:
             return True
         except Exception as e: 
             print("Invalid user input")
-            print(e)
+            #print(e)
         return False
       
     #books table fields: 
@@ -44,7 +44,7 @@ class InsertRows:
             return True            
         except Exception as e: 
             print("Invalid book input")
-            print(e)
+            #print(e)
         return False
         
     
@@ -69,8 +69,7 @@ class InsertRows:
             return True
         except Exception as e: 
             print("Invalid order input")
-            #print(insertRow)
-            print(e)
+            #print(e)
         return False
         
     def inputDate(self):
@@ -90,7 +89,7 @@ class InsertRows:
                 date = datetime(int(year),int(month),int(day),int(hour),int(minute),int(second))
             except Exception as e: 
                 print("Invalid date & time")
-                print(e)
+                #print(e)
                 loop = True
         return date
 
