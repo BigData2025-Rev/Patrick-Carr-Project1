@@ -114,7 +114,7 @@ class UpdateRows:
                     amount = int(oldAmount) - int(amount)
                 except Exception as e: 
                     print("Invalid book input")
-                    print(e)
+                    #print(e)
                     return False
             insertRow += "amount = %s, "
             execute = True
@@ -131,7 +131,7 @@ class UpdateRows:
             except Exception as e: 
                 print("Invalid book input")
                 self.logger.info("Failed to update book in the books table")
-                print(e)
+                #print(e)
                 return False
         return True
         
