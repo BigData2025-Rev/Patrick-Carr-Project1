@@ -5,24 +5,27 @@ from Project1UpdateRows import UpdateRows
 from Project1Delete import DeleteRows
 from Project1Delete import DeleteRows
 from datetime import datetime
+import logging
 
 
 class UI:
     cnx = None
-    account = Account(cnx)
-    insertRows = InsertRows(cnx)
-    readRows = ReadRows(cnx) 
-    updateRows = UpdateRows(cnx)
-    deleteRows = DeleteRows(cnx)
+    logger = logging.getLogger()
+    account = Account(cnx, logger)
+    insertRows = InsertRows(cnx, logger)
+    readRows = ReadRows(cnx, logger) 
+    updateRows = UpdateRows(cnx, logger)
+    deleteRows = DeleteRows(cnx, logger)
 
-    def __init__(self, cnx):
+    def __init__(self, cnx, logger):
         self.cnx = cnx
-        #Make new instances with the updated cnx
-        self.account = Account(cnx)
-        self.insertRows = InsertRows(cnx)
-        self.readRows = ReadRows(cnx) 
-        self.updateRows = UpdateRows(cnx)
-        self.deleteRows = DeleteRows(cnx)
+        #Make new instances with the updated cnx and logger
+        self.logger = logger
+        self.account = Account(cnx, logger)
+        self.insertRows = InsertRows(cnx, logger)
+        self.readRows = ReadRows(cnx, logger) 
+        self.updateRows = UpdateRows(cnx, logger)
+        self.deleteRows = DeleteRows(cnx, logger)
         
     def start(self):
         while True: #The loop is exited by choosing "3"
@@ -63,6 +66,9 @@ class UI:
                 result = self.insertRows.insertUserRow(user,password,adminBool,"0")
                 if result:
                     print("Account creation was successful")
+                    self.logger.info("Account creation was successful")
+                else:
+                    self.logger.info("Account creation failed")
             elif option == "3":
                 break #Quit was selected, so break the loop and return to the main class
             else:
@@ -88,6 +94,7 @@ class UI:
                 funds = input("Input amount of added funds:")
                 result = self.updateRows.updateUsersRow("","","",user[0],funds,True)
                 if result:
+                    self.logger.info("Funds added to current user")
                     print("Funds added successfully!")
             elif option == "5":
                 print("Funds: " + str(self.readRows.readUserFunds(user[0])))
@@ -248,7 +255,7 @@ class UI:
             print("Update successful!")
 
     def updateBooksUI(self):
-        print("Updating row in the users table. Enter no input to keep a cell the same")
+        print("Updating row in the books table. Enter no input to keep a cell the same")
         #Do not loop
         bid = input("Input book ID to update:")
         bookname = input("Input updated book name:")

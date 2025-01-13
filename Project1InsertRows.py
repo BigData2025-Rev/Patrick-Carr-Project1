@@ -1,11 +1,14 @@
 #Admin Only
 #import re
 from datetime import datetime
+import logging
 
 class InsertRows:
     cnx = None
-    def __init__(self, cnx):
+    logger = logging.getLogger()
+    def __init__(self, cnx, logger):
         self.cnx = cnx
+        self.logger = logger
 
     #users table fields:
     # uid int, also the primary key [0]
@@ -20,9 +23,11 @@ class InsertRows:
         try:
             cursor.execute(insertRow, (username, password, adminBool, funds))
             self.cnx.commit()
+            self.logger.info("Inserted user into the users table")
             return True
         except Exception as e: 
             print("Invalid user input")
+            self.logger.info("Failed to insert user into the users table")
             #print(e)
         return False
       
@@ -41,9 +46,11 @@ class InsertRows:
         try:
             cursor.execute(insertRow, (bookname, author, release, price, amount))
             self.cnx.commit()
+            self.logger.info("Inserted book into the books table")
             return True            
         except Exception as e: 
             print("Invalid book input")
+            self.logger.info("Failed to insert book into the books table")
             #print(e)
         return False
         
@@ -66,9 +73,11 @@ class InsertRows:
         try:
             cursor.execute(insertRow, (uid, bid, date, purchases, spent))
             self.cnx.commit()
+            self.logger.info("Inserted order into the orders table")
             return True
         except Exception as e: 
             print("Invalid order input")
+            self.logger.info("Failed to insert order into the orders table")
             #print(e)
         return False
         

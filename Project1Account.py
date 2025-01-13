@@ -1,10 +1,13 @@
 from Project1InsertRows import InsertRows
+import logging
 class Account:
     cnx = None
-    insertRows = InsertRows(cnx)
-    def __init__(self, cnx):
+    logger = logging.getLogger()
+    insertRows = InsertRows(cnx, logger)
+    def __init__(self, cnx, logger):
         self.cnx = cnx
-        self.insertRows = InsertRows(cnx)
+        self.logger = logger
+        self.insertRows = InsertRows(cnx, logger)
 
     def login(self, user, password):
         
@@ -16,11 +19,14 @@ class Account:
         loginSuccess = False
         if len(result) > 1:
             print("ERROR: No two users can have the save username and password")
+            self.logger.info("Account login failed")
         elif len(result) == 1:
             result = result[0]
             loginSuccess = True
+            self.logger.info("Account login succeeded")
         else:
             print("Username or password is incorrect")
+            self.logger.info("Account login failed")
         
         return loginSuccess, result
     

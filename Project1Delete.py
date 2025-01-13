@@ -1,7 +1,10 @@
+import logging
 class DeleteRows:
     cnx = None
-    def __init__(self, cnx):
+    logger = logging.getLogger()
+    def __init__(self, cnx, logger):
         self.cnx = cnx
+        self.logger = logger
 
     def deleteUserRow(self, uid):
         delete = "DELETE FROM users WHERE uid = %s"
@@ -9,9 +12,11 @@ class DeleteRows:
         try:
             cursor.execute(delete, [uid])
             self.cnx.commit()
+            self.logger.info("Deleted user from the users table")
             return True
         except Exception as e: 
             print("Delete input was invalid")
+            self.logger.info("Failed to delete user from the users table")
             #print(e)
         return False
         
@@ -22,10 +27,11 @@ class DeleteRows:
         try:
             cursor.execute(delete, [bid])
             self.cnx.commit()
+            self.logger.info("Deleted book from the books table")
             return True
-            #print("Delete Successful")
         except Exception as e: 
             print("Delete input was invalid")
+            self.logger.info("Failed to delete book from the books table")
             #print(e)
         return False
         
@@ -35,11 +41,12 @@ class DeleteRows:
         cursor = self.cnx.cursor()
         try:
             cursor.execute(delete, [oid])
-            #print("Delete Successful")
             self.cnx.commit()
+            self.logger.info("Deleted order from the orders table")
             return True
         except Exception as e: 
             print("Delete input was invalid")
+            self.logger.info("Failed to delete order from the orders table")
             #print(e)
         return False
         

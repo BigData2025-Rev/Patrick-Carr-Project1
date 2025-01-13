@@ -3,16 +3,19 @@ from Project1InsertRows import InsertRows
 from datetime import datetime
 from Project1ReadRows import ReadRows
 from Project1InsertRows import InsertRows
+import logging
 
 class UpdateRows:
     cnx = None
-    readRows = ReadRows(cnx)
-    insertRows = InsertRows(cnx)
-    def __init__(self, cnx):
+    logger = logging.getLogger()
+    readRows = ReadRows(cnx, logger)
+    insertRows = InsertRows(cnx, logger)
+    def __init__(self, cnx, logger):
         self.cnx = cnx
         #Make new instances with the updated cnx
-        self.readRows = ReadRows(cnx) 
-        insertRows = InsertRows(cnx)
+        self.readRows = ReadRows(cnx, logger) 
+        insertRows = InsertRows(cnx, logger)
+        self.logger = logger
 
     def executePurchase(self, purchases, uid, bid):
         cursor = self.cnx.cursor()
@@ -28,9 +31,11 @@ class UpdateRows:
             insertRow = "INSERT INTO orders (uid, bid, orderTime, purchases, spent) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(insertRow, (uid, bid, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), purchases, price))
             self.cnx.commit()
+            self.logger.info("Purchase executed")
             return True
         except Exception as e: 
             print("Invalid purchase input")
+            self.logger.info("Failed to execute purchase")
             #print(e)
         return False
 
@@ -72,9 +77,10 @@ class UpdateRows:
                 inputList.append(uid)
                 cursor.execute(insertRow, inputList)
                 self.cnx.commit()
-                
+                self.logger.info("Updated user in the users table")
             except Exception as e: 
                 print("Update input was invalid")
+                self.logger.info("Failed to update user in the users table")
                 #print(e)
                 return False
         return True
@@ -94,7 +100,7 @@ class UpdateRows:
             execute = True
             inputList.append(author)
         if release != "":
-            insertRow += "release = %s, "
+            insertRow += "release_year = %s, "
             execute = True
             inputList.append(release)
         if price != "":
@@ -108,7 +114,7 @@ class UpdateRows:
                     amount = int(oldAmount) - int(amount)
                 except Exception as e: 
                     print("Invalid book input")
-                    #print(e)
+                    print(e)
                     return False
             insertRow += "amount = %s, "
             execute = True
@@ -121,9 +127,11 @@ class UpdateRows:
                 inputList.append(bid)
                 cursor.execute(insertRow, inputList)
                 self.cnx.commit()
+                self.logger.info("Updated book in the books table")
             except Exception as e: 
                 print("Invalid book input")
-                #print(e)
+                self.logger.info("Failed to update book in the books table")
+                print(e)
                 return False
         return True
         
@@ -166,8 +174,10 @@ class UpdateRows:
                 inputList.append(oid)
                 cursor.execute(insertRow, inputList)
                 self.cnx.commit()
+                self.logger.info("Updated order in the orders table")
             except Exception as e: 
                 print("Invalid order input")
+                self.logger.info("Failed to update order in the orders table")
                 #print(e)
                 return False
         return True

@@ -6,6 +6,7 @@ from Project1ReadRows import ReadRows
 from Project1UpdateRows import UpdateRows
 from Project1Delete import DeleteRows
 from Project1UI import UI
+import logging
 
 class Main:
     def connector(self):
@@ -14,8 +15,12 @@ class Main:
                               host='127.0.0.1',
                               database='project1')
         
-        ui = UI(cnx)
-        tables = Tables(cnx)
+        logging.basicConfig(filename='bookstore_log.log', level=logging.DEBUG)
+        logger = logging.getLogger(__name__)
+        logger.info("Database connection established")
+                
+        ui = UI(cnx, logger)
+        tables = Tables(cnx, logger)
 
         tables.createUsersTable()
         tables.createBooksTable()
